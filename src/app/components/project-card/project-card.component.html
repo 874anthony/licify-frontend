@@ -45,12 +45,13 @@
     </ng-container>
 
     <ng-template #noProvider>
-      <button
+      <a
+        [routerLink]="['/dashboard/projects', project._id]"
         *ngIf="isProvider"
         class="rounded-md text-white font-secondary font-semibold py-1 px-4 bg-red-400"
       >
         Aplicar
-      </button>
+      </a>
 
       <span *ngIf="!isProvider" class="font-secondary text-base"
         >Sin proveedor</span

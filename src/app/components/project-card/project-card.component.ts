@@ -3,11 +3,12 @@ import { Project } from '../../shared/interfaces/project.interface';
 import { CurrencyPipe, DatePipe, NgIf } from '@angular/common';
 
 import { UserRole } from '../../shared/enums/user-role';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-project-card',
   standalone: true,
-  imports: [CurrencyPipe, DatePipe, NgIf],
+  imports: [CurrencyPipe, DatePipe, NgIf, RouterLink],
   templateUrl: './project-card.component.html',
   styles: ``,
 })

@@ -5,12 +5,12 @@ import { ProjectCardComponent } from '../../components/project-card/project-card
 
 import { ProjectService } from '../../shared/services/project.service';
 import { Project } from '../../shared/interfaces/project.interface';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-all-projects',
   standalone: true,
-  imports: [ProjectCardComponent, NgFor],
+  imports: [ProjectCardComponent, NgFor, RouterLink],
   templateUrl: './all-projects.component.html',
   styles: ``,
 })

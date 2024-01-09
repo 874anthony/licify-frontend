@@ -30,4 +30,8 @@ export class AuthService {
       password,
     });
   }
+
+  isLoggedIn() {
+    return !!localStorage.getItem('access_token');
+  }
 }

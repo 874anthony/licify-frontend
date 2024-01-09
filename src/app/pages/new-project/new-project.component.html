@@ -1,10 +1,15 @@
-<div
+<form
+  [formGroup]="providerForm"
   class="bg-white py-8 px-16 rounded-md grid grid-cols-[2fr_1fr] gap-8 shadow-md"
 >
   <div class="grid grid-cols-2 gap-6">
     <div class="flex flex-col">
       <p>Nombre del proyecto</p>
-      <input type="text" class="border border-gray-300 rounded-md p-2" />
+      <input
+        formControlName="name"
+        type="text"
+        class="border border-gray-300 rounded-md p-2"
+      />
     </div>
 
     <div class="flex flex-col">
@@ -12,141 +17,82 @@
       <input
         type="text"
         class="border border-gray-300 rounded-md p-2"
-        value="$12.500.000"
+        currencyInput
+        maxDigits="9"
+        formControlName="price"
       />
     </div>
 
     <div class="flex flex-col">
       <p>Fecha de inicializaci&oacute;n</p>
-      <input type="date" class="border border-gray-300 rounded-md p-2" />
+      <input
+        formControlName="startDate"
+        type="date"
+        class="border border-gray-300 rounded-md p-2"
+      />
     </div>
 
     <div class="flex flex-col">
       <p>Fecha de finalizaci&oacute;n</p>
-      <input type="date" class="border border-gray-300 rounded-md p-2" />
+      <input
+        formControlName="endDate"
+        type="date"
+        class="border border-gray-300 rounded-md p-2"
+      />
     </div>
 
     <div class="flex flex-col">
       <p>Constructora</p>
-      <input
-        type="text"
-        class="border border-gray-300 rounded-md p-2"
-        value="Constructora Bolivar S.A"
-      />
-    </div>
-
-    <div class="flex flex-col">
-      <p>Proveedor</p>
-      <input
-        type="text"
-        class="border border-gray-300 rounded-md p-2"
-        value="No hay proveedor"
-      />
+      <select
+        formControlName="constructorClient"
+        class="border border-gray-300 rounded-md p-2 w-full"
+      >
+        <option value="">Seleccionar constructora</option>
+        <option
+          *ngFor="let constructorClient of constructorClients"
+          [value]="constructorClient._id"
+        >
+          {{ constructorClient.businessName }} - {{ constructorClient.name }}
+        </option>
+      </select>
     </div>
 
     <div class="flex flex-col">
       <p>Descripción</p>
       <textarea
-        name=""
-        id=""
+        formControlName="description"
         cols="20"
         rows="5"
         class="border border-gray-300 rounded-md p-2"
       ></textarea>
     </div>
-
-    <div class="flex flex-col gap-4">
-      <div class="flex items-center gap-1">
-        <p>Items del proyecto</p>
-        <button class="rounded-md">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="red"
-            class="w-5"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.5.379a1.5 1.5 0 0 1-1.06-.44Z"
-            />
-          </svg>
-        </button>
-      </div>
-
-      <ul class="flex gap-2">
-        <li
-          class="flex bg-red-400 p-2 rounded-md gap-1 items-center hover:cursor-pointer"
-        >
-          <span class="text-sm text-white font-secondary font-bold"
-            >Cemento</span
-          >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="white"
-            class="w-5"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M6 18 18 6M6 6l12 12"
-            />
-          </svg>
-        </li>
-        <li
-          class="flex bg-red-400 p-2 rounded-md gap-1 items-center hover:cursor-pointer"
-        >
-          <span class="text-sm text-white font-secondary font-bold"
-            >Concreto</span
-          >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="white"
-            class="w-5"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M6 18 18 6M6 6l12 12"
-            />
-          </svg>
-        </li>
-      </ul>
-    </div>
   </div>
 
   <div class="flex flex-col gap-8 items-center">
-    <div class="w-full grid grid-cols-2 justify-self-center">
+    <div
+      formArrayName="images"
+      class="w-full grid grid-cols-2 justify-self-center"
+    >
       <img
-        src="https://picsum.photos/200/300"
+        [src]="defaultImage"
         alt="project"
-        class="object-contain rounded-md"
-      />
-      <img
-        src="https://picsum.photos/200/300"
-        alt="project"
-        class="object-contain rounded-md"
+        class="object-contain rounded-md self-center justify-self-center col-span-full"
       />
     </div>
 
-    <button
+    <input
+      (change)="onFilesSelected($event)"
       class="bg-red-400 rounded-md text-white py-2 px-4 font-bold font-secondary"
-    >
-      Adjuntar imagen
-    </button>
+      type="file"
+      multiple
+    />
   </div>
-</div>
+</form>
 
 <div class="flex gap-4 justify-center mt-4 place-items-center">
   <button
+    (click)="saveProject()"
+    type="submit"
     class="bg-red-400 rounded-md text-white py-2 px-4 font-bold font-secondary"
   >
     Guardar

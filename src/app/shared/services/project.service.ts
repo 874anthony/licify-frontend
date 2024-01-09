@@ -18,6 +18,10 @@ export class ProjectService {
     return this.http.get(`${this.PROJECT_API}/${id}`);
   }
 
+  createProject(project: any) {
+    return this.http.post(this.PROJECT_API, project);
+  }
+
   updateProject(id: string, project: any) {
     return this.http.patch(`${this.PROJECT_API}/${id}`, project);
   }

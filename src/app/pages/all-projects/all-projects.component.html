@@ -3,7 +3,8 @@
     Proyectos
   </h1>
 
-  <button
+  <a
+    routerLink="/dashboard/new-project"
     class="bg-red-400 rounded-md text-white py-2 px-4 font-bold font-secondary flex gap-1"
   >
     <svg
@@ -22,11 +23,13 @@
     </svg>
 
     Nuevo Proyecto
-  </button>
+  </a>
 </div>
 
-<app-project-card
-  (click)="openProject(project)"
-  *ngFor="let project of projects"
-  [project]="project"
-></app-project-card>
+<div class="flex flex-col gap-4">
+  <app-project-card
+    (click)="openProject(project)"
+    *ngFor="let project of projects"
+    [project]="project"
+  ></app-project-card>
+</div>
