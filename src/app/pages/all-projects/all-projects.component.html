@@ -25,43 +25,8 @@
   </button>
 </div>
 
-<div
-  class="bg-white flex p-4 items-center justify-around rounded-md hover:cursor-pointer shadow-md"
->
-  <img
-    src="https://picsum.photos/200/300"
-    alt="project_photo"
-    class="rounded-full w-16 h-16"
-  />
-
-  <div class="flex flex-col gap-1 items-center">
-    <p class="font-main font-bold text-lg text-slate-700">
-      Nombre del proyecto
-    </p>
-    <span class="font-secondary text-base">Construccion Colegio IEDC</span>
-  </div>
-
-  <div class="flex flex-col gap-1 items-center">
-    <p class="font-main font-bold text-lg text-slate-700">Precio</p>
-    <span class="font-secondary text-base">$12.500.000</span>
-  </div>
-
-  <div class="flex flex-col gap-1 items-center">
-    <p class="font-main font-bold text-lg text-slate-700">Fecha de inicio</p>
-    <span class="font-secondary text-base">12/12/2021</span>
-  </div>
-
-  <div class="flex flex-col gap-1 items-center">
-    <p class="font-main font-bold text-lg text-slate-700">Constructora</p>
-    <span class="font-secondary text-base">CONSTRUCTORA BOLIVAR</span>
-  </div>
-
-  <div class="flex flex-col gap-1 items-center">
-    <p class="font-main font-bold text-lg text-slate-700">Proveedor</p>
-    <button
-      class="rounded-md text-white font-secondary font-semibold py-1 px-4 bg-red-400"
-    >
-      Aplicar
-    </button>
-  </div>
-</div>
+<app-project-card
+  (click)="openProject(project)"
+  *ngFor="let project of projects"
+  [project]="project"
+></app-project-card>

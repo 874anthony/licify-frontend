@@ -5,7 +5,7 @@
     >
       Log In
     </h1>
-    <form class="mt-6" action="" method="POST">
+    <form class="mt-6" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div class="mt-4">
         <label class="block text-gray-700 font-secondary text-lg"
           >Email Address</label
@@ -13,6 +13,7 @@
         <input
           type="email"
           name="email"
+          formControlName="email"
           class="w-full font-secondary px-4 py-2 mt-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-transparent"
           placeholder="Email Address"
           required
@@ -25,6 +26,7 @@
         <input
           type="password"
           name="password"
+          formControlName="password"
           class="w-full font-secondary px-4 py-2 mt-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-transparent"
           placeholder="Password"
           required
@@ -42,7 +44,9 @@
     </form>
     <p class="mt-8 text-center">
       Don&apos;t have an account?
-      <a href="login.php" class="font-semibold text-red-400 hover:text-red-500"
+      <a
+        routerLink="/signup"
+        class="font-semibold text-red-400 hover:text-red-500"
         >Register</a
       >
     </p>

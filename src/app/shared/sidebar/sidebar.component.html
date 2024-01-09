@@ -1,8 +1,11 @@
 <div class="sidebar flex flex-col bg-red-500 h-full p-4">
-  <h1 class="pl-2 text-2xl font-main uppercase font-bold text-white">Licify</h1>
+  <h1 class="pl-2 text-2xl font-main uppercase font-bold text-white">
+    {{ businessName }}
+  </h1>
   <hr class="my-3 bg-white opacity-50" />
 
-  <div
+  <a
+    routerLink="/me"
     class="pr-12 flex gap-2 items-center hover:cursor-pointer hover:bg-neutral-50 hover:bg-opacity-10 p-2 rounded-sm"
   >
     <img
@@ -11,9 +14,9 @@
       class="rounded-full w-8 h-8"
     />
     <h2 class="font-secondary text-base font-medium text-white">
-      John Doe (Proveedor)
+      {{ name.length > 10 ? name.slice(0, 10) + "..." : name }} ({{ role }})
     </h2>
-  </div>
+  </a>
 
   <hr class="my-3 bg-white opacity-50" />
 
@@ -21,7 +24,7 @@
     <li
       class="w-full hover:cursor-pointer hover:bg-neutral-50 hover:bg-opacity-10 p-2 rounded-sm"
     >
-      <a class="flex gap-4 items-center">
+      <a routerLink="/all-projects" class="flex gap-4 items-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

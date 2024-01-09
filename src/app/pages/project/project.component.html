@@ -1,54 +1,79 @@
-<div
+<form
+  [formGroup]="providerForm"
   class="bg-white py-8 px-16 rounded-md grid grid-cols-[2fr_1fr] gap-8 shadow-md"
 >
   <div class="grid grid-cols-2 gap-6">
     <div class="flex flex-col">
       <p>Nombre del proyecto</p>
-      <input type="text" class="border border-gray-300 rounded-md p-2" />
+      <input
+        formControlName="name"
+        type="text"
+        class="border border-gray-300 rounded-md p-2"
+      />
     </div>
 
     <div class="flex flex-col">
       <p>Precio</p>
       <input
+        currencyInput
+        maxDigits="9"
+        formControlName="price"
         type="text"
         class="border border-gray-300 rounded-md p-2"
-        value="$12.500.000"
       />
     </div>
 
     <div class="flex flex-col">
       <p>Fecha de inicializaci&oacute;n</p>
-      <input type="date" class="border border-gray-300 rounded-md p-2" />
+      <input
+        formControlName="startDate"
+        type="date"
+        class="border border-gray-300 rounded-md p-2"
+      />
     </div>
 
     <div class="flex flex-col">
       <p>Fecha de finalizaci&oacute;n</p>
-      <input type="date" class="border border-gray-300 rounded-md p-2" />
+      <input
+        formControlName="endDate"
+        type="date"
+        class="border border-gray-300 rounded-md p-2"
+      />
     </div>
 
     <div class="flex flex-col">
       <p>Constructora</p>
-      <input
-        type="text"
-        class="border border-gray-300 rounded-md p-2"
-        value="Constructora Bolivar S.A"
-      />
+      <select
+        formControlName="constructorClient"
+        class="border border-gray-300 rounded-md p-2 w-full"
+      >
+        <option value="">Seleccionar constructora</option>
+        <option
+          *ngFor="let constructorClient of constructorClients"
+          [value]="constructorClient._id"
+        >
+          {{ constructorClient.businessName }} - {{ constructorClient.name }}
+        </option>
+      </select>
     </div>
 
     <div class="flex flex-col">
       <p>Proveedor</p>
-      <input
-        type="text"
-        class="border border-gray-300 rounded-md p-2"
-        value="No hay proveedor"
-      />
+      <select
+        formControlName="provider"
+        class="border border-gray-300 rounded-md p-2 w-full"
+      >
+        <option value="">Seleccionar proveedor</option>
+        <option *ngFor="let provider of providers" [value]="provider._id">
+          {{ provider.businessName }} - {{ provider.name }}
+        </option>
+      </select>
     </div>
 
     <div class="flex flex-col">
       <p>Descripción</p>
       <textarea
-        name=""
-        id=""
+        formControlName="description"
         cols="20"
         rows="5"
         class="border border-gray-300 rounded-md p-2"
@@ -58,8 +83,9 @@
     <div class="flex flex-col gap-4">
       <div class="flex items-center gap-1">
         <p>Items del proyecto</p>
-        <button class="rounded-md">
+        <button *ngIf="isProvider" class="rounded-md">
           <svg
+            (click)="addItem(inputItem.value)"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
@@ -74,37 +100,26 @@
             />
           </svg>
         </button>
+
+        <input
+          #inputItem
+          [ngClass]="{ hidden: !isProvider }"
+          type="text"
+          class="ml-4 border border-gray-300 rounded-md p-2"
+        />
       </div>
 
-      <ul class="flex gap-2">
+      <ul class="flex gap-2" formArrayName="items">
         <li
+          *ngFor="let control of items.controls; let i = index"
           class="flex bg-red-400 p-2 rounded-md gap-1 items-center hover:cursor-pointer"
         >
-          <span class="text-sm text-white font-secondary font-bold"
-            >Cemento</span
-          >
+          <span class="text-sm text-white font-secondary font-bold">
+            {{ control.value }}
+          </span>
           <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="white"
-            class="w-5"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M6 18 18 6M6 6l12 12"
-            />
-          </svg>
-        </li>
-        <li
-          class="flex bg-red-400 p-2 rounded-md gap-1 items-center hover:cursor-pointer"
-        >
-          <span class="text-sm text-white font-secondary font-bold"
-            >Concreto</span
-          >
-          <svg
+            *ngIf="isProvider"
+            (click)="deleteItem(i)"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
@@ -124,34 +139,47 @@
   </div>
 
   <div class="flex flex-col gap-8 items-center">
-    <div class="w-full grid grid-cols-2 justify-self-center">
-      <img
-        src="https://picsum.photos/200/300"
-        alt="project"
-        class="object-contain rounded-md"
-      />
-      <img
-        src="https://picsum.photos/200/300"
-        alt="project"
-        class="object-contain rounded-md"
-      />
+    <div
+      formArrayName="images"
+      class="w-full grid grid-cols-2 justify-self-center"
+    >
+      <ng-container *ngIf="hasImages; else noImages">
+        <img
+          *ngFor="let imageControl of images.controls; let i = index"
+          [src]="imageControl.value"
+          alt="project image preview"
+          class="object-contain rounded-md"
+        />
+      </ng-container>
+
+      <ng-template #noImages>
+        <img
+          [src]="defaultImage"
+          alt="project"
+          class="object-contain rounded-md self-center justify-self-center col-span-full"
+        />
+      </ng-template>
     </div>
 
-    <button
+    <input
       class="bg-red-400 rounded-md text-white py-2 px-4 font-bold font-secondary"
-    >
-      Adjuntar imagen
-    </button>
+      (change)="onFilesSelected($event)"
+      multiple
+      type="file"
+    />
   </div>
-</div>
+</form>
 
 <div class="flex gap-4 justify-center mt-4 place-items-center">
   <button
+    type="submit"
+    (click)="saveProject()"
     class="bg-red-400 rounded-md text-white py-2 px-4 font-bold font-secondary"
   >
     Guardar
   </button>
   <button
+    routerLink="/dashboard/all-projects"
     class="bg-slate-400 rounded-md text-white py-2 px-4 font-bold font-secondary"
   >
     Cancelar

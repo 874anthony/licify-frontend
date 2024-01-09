@@ -1,0 +1,60 @@
+<div
+  class="bg-white flex p-4 items-center justify-around rounded-md hover:cursor-pointer shadow-md"
+>
+  <img
+    [src]="project.images?.[0] ?? defaultImage"
+    alt="project_photo"
+    class="rounded-full w-16 h-16"
+  />
+
+  <div class="flex flex-col gap-1 items-center">
+    <p class="font-main font-bold text-lg text-slate-700">
+      Nombre del proyecto
+    </p>
+    <span class="font-secondary text-base"> {{ project.name }} </span>
+  </div>
+
+  <div class="flex flex-col gap-1 items-center">
+    <p class="font-main font-bold text-lg text-slate-700">Precio</p>
+    <span class="font-secondary text-base">
+      {{ project.price | currency : "USD" : "symbol" : "1.0-0" }}
+    </span>
+  </div>
+
+  <div class="flex flex-col gap-1 items-center">
+    <p class="font-main font-bold text-lg text-slate-700">Fecha de inicio</p>
+    <span class="font-secondary text-base">
+      {{ project.startDate | date : "fullDate" }}
+    </span>
+  </div>
+
+  <div class="flex flex-col gap-1 items-center">
+    <p class="font-main font-bold text-lg text-slate-700">Constructora</p>
+    <span class="font-secondary text-base">{{
+      project.constructorClient.businessName
+    }}</span>
+  </div>
+
+  <div class="flex flex-col gap-1 items-center">
+    <p class="font-main font-bold text-lg text-slate-700">Proveedor</p>
+
+    <ng-container *ngIf="project.provider; else noProvider">
+      <span class="font-secondary text-base">{{
+        project.provider.businessName
+      }}</span>
+    </ng-container>
+
+    <ng-template #noProvider>
+      <button
+        *ngIf="isProvider"
+        class="rounded-md text-white font-secondary font-semibold py-1 px-4 bg-red-400"
+      >
+        Aplicar
+      </button>
+
+      <span *ngIf="!isProvider" class="font-secondary text-base"
+        >Sin proveedor</span
+      >
+    </ng-template>
+  </div>
+</div>
